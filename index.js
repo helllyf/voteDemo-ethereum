@@ -1,13 +1,3 @@
-// $(document).ready(function () {
-// 	$(".artist_l li .cvote").click(function () {
-// 		var nowdo = $(this);
-// 		var baby = nowdo.parent().parent().find(".tag_txt").html();
-// 		var nowvote = nowdo.parent().find(".cvotenum b").html();
-// 		nowdo.parent().find(".cvotenum b").html(parseInt(nowvote) + 1);
-// 		alert("亲！您为征名【" + baby + "】投了一票！谢谢您的投票！");
-
-// 	});
-// });
 var contract = null,vm = null;
 avalonInit();
 loadPage();
@@ -203,8 +193,8 @@ function avalonInit() {
 
 
 function loadPage() {
-	light.web3Init();
-	contract = light.contractInit(ballotSet.abi,ballotSet.address);
+	lightEth.web3Init();
+	contract = lightEth.contractInit(ballotSet.abi,ballotSet.address);
 	loadProposals();
 }
 
@@ -242,7 +232,7 @@ function addProposal(name,pic) {
 	// 		 "to":ballotSet.address,
 	// 		 "value": "",
 	// 		 "nonce": number,
-	// 		 "gas": light.gas,
+	// 		 "gas": lightEth.gas,
 	// 		 "data": s
 	// 	}
 	// console.log(window.ethereumjs_tx_sign);
@@ -262,7 +252,7 @@ function addProposal(name,pic) {
 	contract.addProposal(name,pic, 
 		{	
 		 from: web3.eth.accounts[0],
-		 gas: light.gas
+		 gas: lightEth.gas
 		},function(err,res) {
 			console.log(err);
 			if(!err)
@@ -281,7 +271,7 @@ function vote(id){
 	contract.vote(id,
 		{	
 		// from:address,
-		 gas:light.gas
+		 gas:lightEth.gas
 		},function(err,res) {
 			 console.log(err);
             if(!err){
