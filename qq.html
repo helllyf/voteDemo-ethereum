@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>首页</title>
+	<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+    <script type="text/javascript">
+    	//web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'));
+		console.log(web3.currentProvider);
+		var connected = web3.isConnected();
+		if(!connected){
+		  console.log("node not connected!");
+		}else{
+		  console.log("node connected");
+		}
+		web3.eth.getAccounts(function(error, result){ 
+			console.log(error);
+			console.log(result);
+		});
+		web3.eth.getCoinbase(function(error,result){
+			console.log(result);
+		})
+    </script>
+</head>
+<body>
+	
+</body>
+</html>
