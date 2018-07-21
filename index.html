@@ -1,0 +1,213 @@
+﻿<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/avalon.js"></script>
+<script src="js/keythereum.min.js"></script>
+<script src="js/bundle.js"></script>
+<!-- <script type="text/javascript" src="js/lightwallet.min.js"></script> -->
+<script type="text/javascript" src="node_modules/web3/dist/web3.js"></script>
+<!-- <script type="text/javascript" src="node_modules/hooked-web3-provider/build/hooked-web3-provider.js"></script> -->
+<title>Ballot</title>
+<div class="page-header">
+	<h1>
+		Ballot Contract
+	</h1>
+</div><!-- /.page-header -->
+
+	
+<div class="row" ms-controller="avaCtl">
+	<button style="position: fixed;z-index: 10002;top: 45px;right: 45px;height: 40px;width: 45px;border: none;background-color: rgb(0,0,0,0);">{{ trancMsg }}</button>
+	<button type="button" ms-click="@refreash">刷新</button>
+	<button type="button" ms-click="@opePro(-1)">添加测试</button>
+	<button type="button" ms-click="@opePro(1)">更新测试</button>
+
+	<div class="col-xs-12">
+		<!-- PAGE CONTENT BEGINS -->
+		<div id="cover"  style="position: fixed;top: 0;left:0;height: 100%;width: 100%;display: block;background-color: rgba(0,0,0,0.3);z-index: 10000;display: none;" ms-visible="@argtoggle">
+			<div class="login-container" >
+				<div class="position-relative" style="top: 150px">
+					<div id="login-box" class="login-box visible widget-box no-border">
+						<div class="widget-body">
+							<div class="widget-main">
+								<h4 class="header blue lighter bigger">
+									<i class="ace-icon fa fa-coffee green"></i>
+									test input 
+								</h4>
+
+								<div class="space-6"></div>
+								<form>
+									<fieldset>
+										<label  class="block clearfix"  >
+											<span class="block input-icon input-icon-right" >
+												<input  class="form-control" placeholder="arg1" ms-duplex=" @arg1"/>
+												
+											</span>
+										</label>
+										<label  class="block clearfix"  >
+											<span class="block input-icon input-icon-right" >
+												<input  class="form-control" placeholder="arg2" ms-duplex=" @arg2"/>
+												
+											</span>
+										</label>
+										<div class="space"></div>
+										<div class="clearfix" >
+ 											<button type="button" class="width-35 pull-left btn btn-sm" ms-click="@cancelOpePro()">
+												<i class="ace-icon fa fa-coffee"></i>
+												<span class="bigger-110">cancle</span>
+											</button>
+
+											<button type="button" class="width-35 pull-right btn btn-sm btn-success" ms-click="@submitOpePro()">
+												<i class="ace-icon fa fa-gavel"></i>
+												<span class="bigger-110">submit</span>
+											</button>
+										</div>
+
+										<div class="space-4"></div>
+									</fieldset>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="cover"  style="position: fixed;top: 0;left:0;height: 100%;width: 100%;display: block;background-color: rgba(0,0,0,0.3);z-index: 10000;display: none;" ms-visible="false">
+			<div class="login-container" >
+				<div class="position-relative" style="top: 150px">
+					<div id="login-box" class="login-box visible widget-box no-border">
+						<div class="widget-body">
+							<div class="widget-main">
+								<h4 class="header blue lighter bigger">
+									<i class="ace-icon fa fa-coffee green"></i>
+									<!-- {{ showATitle }} -->
+									pendding
+								</h4>
+<!-- 
+								<div class="space-6"></div>
+
+								<form ms-visible="@addToggle">
+									<fieldset>
+										<label  class="block clearfix"  >
+											<span class="block input-icon input-icon-right" >
+												<input type="password" class="form-control" placeholder="Password" ms-duplex=" @password"/>
+												<i class="ace-icon fa fa-lock"></i>
+											</span>
+										</label>
+										<div class="space"></div>
+
+										<div class="clearfix" >
+ 											<button type="button" class="width-35 pull-left btn btn-sm" ms-click="@cancelAddAccount()">
+												<i class="ace-icon fa fa-coffee"></i>
+												<span class="bigger-110">cancle</span>
+											</button>
+
+											<button type="button" class="width-35 pull-right btn btn-sm btn-success" ms-click="@submitNewAccount()">
+												<i class="ace-icon fa fa-gavel"></i>
+												<span class="bigger-110">submit</span>
+											</button>
+										</div>
+
+										<div class="space-4"></div>
+									</fieldset>
+
+								</form>
+
+								<form ms-visible="!@addToggle">
+									<fieldset>
+										<label class="block clearfix">
+											<span class="block input-icon input-icon-right">
+												<input type="text" class="form-control" placeholder="Account"  ms-duplex="@account"/>
+												<i class="ace-icon fa fa-user" ms-click="@showAccountList()"></i>
+											</span>
+										</label>
+										<div  ms-visible="@accountToggle" >
+											<select multiple="multiple" size="4" style="max-width: 330px">
+												<option value="option1" ms-for="e in @accounts" ms-click="choiceAccount(e)">{{ e }}</option>
+											</select>
+
+											<div class="hr hr-16 hr-dotted"></div>
+										</div>
+
+										<label  class="block clearfix"  >
+											<span class="block input-icon input-icon-right" >
+												<input type="password" class="form-control" placeholder="Password" ms-duplex=" @password"/>
+												<i class="ace-icon fa fa-lock"></i>
+											</span>
+										</label>
+
+										<div class="space"></div>
+
+										<div class="clearfix" >
+											<button type="button" class="width-20 pull-left btn btn-sm " ms-click="@closeVote()">
+												<span class="bigger-110">cancel</span>
+											</button>
+ 											<button type="button" class="width-20  btn btn-sm btn-primary" ms-click="@addAccount()">
+												<i class="ace-icon fa fa-key"></i>
+												<span class="bigger-110">new</span>
+											</button>
+
+											<button type="button" class="width-20 pull-right btn btn-sm btn-success " ms-click="@submitVote()">
+												<i class="ace-icon fa fa-bolt"></i>
+												<span class="bigger-110">vote</span>
+											</button>
+										</div>
+
+										<div class="space-4"></div>
+									</fieldset>
+
+								</form> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="itagBox">
+
+			<ul class="artist_l">
+				<li class="tag1"  ms-for="el in @proposals">
+		           <div class="votetext" ms-css="{backgroundImage: 'url('+@el[3] + ')'}">
+						<div class="tag_txt" >
+						 	{{ el[1] }}
+						</div>
+<!-- 						<a href="#"> 
+			             id: {{el[0]}} name：{{el[1]}}
+			            </a> -->
+		            </div>
+		            <div class="votedo">
+		              <div class="cvotenum"><b>第{{el[0]}}号-----{{ el[2] }}</b>票</div>
+		              <div class="cvote" ms-click="@vote(el)">投票</div>
+		            </div>
+				</li>
+
+<!-- 				<li class="tag1"  >
+		           <div class="votetext" style="background-image: url(http://forum.csdn.net/PointForum/ui/scripts/csdn/Plugin/001/face/18.gif);">
+						<div class="tag_txt" >
+						 	mey
+						</div>
+						<a href="#"> 
+			             id: 1 name：mey
+			            </a>
+		            </div>
+		            <div class="votedo">
+		              <div class="cvotenum"><b>00</b>票</div>
+		              <div class="cvote" ms-click="@vote(el)">投票</div>
+		            </div>
+				</li> -->
+
+			</ul>
+		</div>
+
+
+
+		<!-- PAGE CONTENT ENDS -->
+	</div><!-- /.col -->
+
+</div><!-- /.row -->
+<script type="text/javascript" src="content/ballotSet.js"></script>
+<script type="text/javascript" src="js/light.js"></script>
+<script type="text/javascript" src="content/index.js"></script>
+
