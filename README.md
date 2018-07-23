@@ -1,11 +1,4 @@
 # hello-world
-just a test.
 
 
-asdasd
-hello world
-
-
-
-
-sasd
+it is a voteDemo .
